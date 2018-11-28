@@ -2,75 +2,29 @@ version: '3.3'
 
 services:
    slapd:
-      volumes:
-         - ldap-vol:/var/lib/ldap
-         - slapd-vol:/etc/ldap/slapd.d
       ports:
          - "389:389"
    postgres:
-      volumes:
-         - postgres-data-vol:/var/lib/postgresql/data
-      environment:
-         - POSTGRES_DB=pacsdb
-         - POSTGRES_USER=pacs
-         - POSTGRES_PASSWORD=pacs
       ports:
          - "5432:5432"
    dcm4chee-arc:
-      volumes:
-         - wildfly-vol:/opt/wildfly/standalone
-         - dcm4chee-arc-vol:/storage
       ports:
          - "9090:8080"
          - "9990:9990"
          - "11112:11112"
          - "2575:2575"
    dcmrs-broker:
-      environment:
-         - QIDO_REMOTE_AE=DCM4CHEE
-         - QIDO_REMOTE_HOST=dcm4chee-arc
-         - QIDO_REMOTE_PORT=11112
-         - QIDO_LOCAL_AE=QIDO-TESTING
-         - WADO_REMOTE_AE=DCM4CHEE
-         - WADO_REMOTE_HOST=dcm4chee-arc
-         - WADO_REMOTE_PORT=11112
-         - WADO_LOCAL_AE=WADO-TESTING
-         - SCP_LOCAL_AE=PACS-SCP
-         - SCP_LOCAL_PORT=11122
-         - SCP_CACHE_DIR_PATH=/dcmrs-broker/cache
-      volumes:
-         - dcmrs-broker-vol:/dcmrs-broker/cache
       ports:
          - "4567:4567"
          - "11122:11112"
    introspection-service:
       ports:
          - "9004:5000"
-      environment:
-         - API_SERVER=https://portal-stu3.demo.syncfor.science/api/fhir
-         - API_SERVER_NAME='SMART STU-3 PORTAL'
    s4s-fhir-broker:
       environment:
-         - DICOM_RS_BROKER_QIDO_URL=http://dcmrs-broker:4567/qido-rs
-         - DICOM_RS_BROKER_WADO_URL=http://dcmrs-broker:4567/wado-rs
-         - INTROSPECTION_SERVICE_URL=http://introspection-service:5000/api/introspect
          - IMAGE_ARCHIVE_WADO_RS_URL="http://localhost:4567/wado-rs"
-         - PID_LOOKUP_DB_URL="jdbc:derby:directory:/data/pidLookup;create=true"
-         - DIAGNOSTIC_REPORT_DB_URL="jdbc:postgresql://rsnadb:5432/rsnadb"
-         - DIAGNOSTIC_REPORT_PERFORMER_REFERENCE="Organization/57"
       ports:
          - "8080:8080"
    rsnadb:
-      environment:
-         - POSTGRES_DB=rsnadb
-         - POSTGRES_USER=edge
-         - POSTGRES_PASSWORD=psword
       ports:
          - "5433:5432"
-volumes:
-    ldap-vol:
-    slapd-vol:
-    postgres-data-vol:
-    wildfly-vol:
-    dcm4chee-arc-vol:
-    dcmrs-broker-vol:

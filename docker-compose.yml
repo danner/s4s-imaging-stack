@@ -9,6 +9,10 @@ services:
          - internal
    postgres:
       image: dcm4che/postgres-dcm4chee:9.6-10
+      environment:
+         - POSTGRES_DB=pacsdb
+         - POSTGRES_USER=pacs
+         - POSTGRES_PASSWORD=pacs
       expose:
          - "5432"
       networks:
@@ -30,6 +34,18 @@ services:
          context: ./docker-builds/dcmrs-broker
          dockerfile: Dockerfile
       image: rsna/dcmrs-broker
+      environment:
+         - QIDO_REMOTE_AE=DCM4CHEE
+         - QIDO_REMOTE_HOST=dcm4chee-arc
+         - QIDO_REMOTE_PORT=11112
+         - QIDO_LOCAL_AE=QIDO-TESTING
+         - WADO_REMOTE_AE=DCM4CHEE
+         - WADO_REMOTE_HOST=dcm4chee-arc
+         - WADO_REMOTE_PORT=11112
+         - WADO_LOCAL_AE=WADO-TESTING
+         - SCP_LOCAL_AE=PACS-SCP
+         - SCP_LOCAL_PORT=11122
+         - SCP_CACHE_DIR_PATH=/dcmrs-broker/cache
       expose:
          - "4567"
          - "11112"
@@ -37,6 +53,9 @@ services:
          - internal
    introspection-service:
       image: syncforscience/token-introspector
+      environment:
+         - API_SERVER=https://portal-stu3.demo.syncfor.science/api/fhir
+         - API_SERVER_NAME='SMART STU-3 PORTAL'
       expose:
          - "5000"
       networks:
@@ -46,6 +65,13 @@ services:
          context: ./docker-builds/s4s-fhir-broker/hapi-fhir-jpaserver-example
          dockerfile: Dockerfile
       image: rsna/s4s-fhir-broker
+      environment:
+         - DICOM_RS_BROKER_QIDO_URL=http://dcmrs-broker:4567/qido-rs
+         - DICOM_RS_BROKER_WADO_URL=http://dcmrs-broker:4567/wado-rs
+         - INTROSPECTION_SERVICE_URL=http://introspection-service:5000/api/introspect
+         - PID_LOOKUP_DB_URL="jdbc:derby:directory:/data/pidLookup;create=true"
+         - DIAGNOSTIC_REPORT_DB_URL="jdbc:postgresql://rsnadb:5432/rsnadb"
+         - DIAGNOSTIC_REPORT_PERFORMER_REFERENCE="Organization/57"
       expose:
          - "8080"
       networks:
@@ -55,6 +81,10 @@ services:
          context: ./docker-builds/s4s-edgeserverdb
          dockerfile: Dockerfile
       image: rsna/s4s-edgeserverdb
+      environment:
+         - POSTGRES_DB=rsnadb
+         - POSTGRES_USER=edge
+         - POSTGRES_PASSWORD=psword
       expose:
          - "5432"
       networks:

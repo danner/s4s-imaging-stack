@@ -1,0 +1,48 @@
+version: '3.3'
+
+services:
+   slapd:
+      volumes:
+         - ldap-vol:/var/lib/ldap
+         - slapd-vol:/etc/ldap/slapd.d
+   postgres:
+      volumes:
+         - postgres-data-vol:/var/lib/postgresql/data
+   dcm4chee-arc:
+      volumes:
+         - wildfly-vol:/opt/wildfly/standalone
+         - dcm4chee-arc-vol:/storage
+   dcmrs-broker:
+      volumes:
+         - dcmrs-broker-vol:/dcmrs-broker/cache
+      environment:
+         - VIRTUAL_HOST=dicom-broker.demo.syncfor.science
+         - VIRTUAL_PORT=4567
+         - VIRTUAL_NETWORK=nginx-proxy
+         - LETSENCRYPT_HOST=dicom-broker.demo.syncfor.science
+         - LETSENCRYPT_EMAIL=letsencrypt@mg.syncfor.science
+      networks:
+         - proxy-tier
+   s4s-fhir-broker:
+      environment:
+         - VIRTUAL_HOST=imaging-broker.demo.syncfor.science
+         - VIRTUAL_PORT=8080
+         - VIRTUAL_NETWORK=nginx-proxy
+         - LETSENCRYPT_HOST=imaging-broker.demo.syncfor.science
+         - LETSENCRYPT_EMAIL=letsencrypt@mg.syncfor.science
+         - IMAGE_ARCHIVE_WADO_RS_URL="https://dicom-broker.demo.syncfor.science/wado-rs"
+      networks:
+         - proxy-tier
+
+networks:
+   proxy-tier:
+      external:
+         name: nginx-proxy
+
+volumes:
+   ldap-vol: {}
+   slapd-vol: {}
+   postgres-data-vol: {}
+   wildfly-vol: {}
+   dcm4chee-arc-vol: {}
+   dcmrs-broker-vol: {}
