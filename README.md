@@ -23,6 +23,14 @@ docker-compose build # build the images yourself
 ```
 docker-compose up
 ```
+
+### SMART server
+
+By default, the token instrospection service uses the SMART server located at https://portal-stu3.demo.syncfor.science/. To remove this external dependence, you can run the stack with the HAPI FHIR and SMART servers:
+```
+docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.smart.yml up
+```
+
 ### Wait for the services to install then load sample data:
 ```
 docker-compose -f docker-compose.loaddata.yml up
@@ -41,8 +49,9 @@ By default, you'll have servers running at ports:
  * `4567`: DICOM-RS Broker service
  * `11122`: DICOM-RS Broker SCP
  * `9004`: Introspection service
+ * `9006`: SMART server (if included)
  
-The following Docker volumes will be created:
+The following Docker volumes will be created when deployed:
 
  * `ldap-vol`: LDAP data directory
  * `slapd-vol`: Slapd data directory
@@ -60,3 +69,12 @@ The following Docker volumes will be created:
 ```
 git submodule update --remote
 ```
+
+### Deploying on S4S AWS instance
+```
+docker-compose -f docker-compose.yml -f deploys/demo.syncfor.science/docker-compose.yml up
+```
+
+The following services will be made publicly available:
+ * `imaging-broker.demo.syncfor.science`: the FHIR broker
+ * `dicom-broker.demo.syncfor.science`: the DICOM broker
