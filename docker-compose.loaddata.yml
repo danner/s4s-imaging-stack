@@ -21,6 +21,11 @@ services:
          - DEVICE_PORT=11122  
          - LDAP_HOST=slapd
          - LDAP_PORT=389
+   load-reference-data:
+      build:
+         context: ./reference-data-load
+         dockerfile: Dockerfile
+
 networks:
    default:
      external:

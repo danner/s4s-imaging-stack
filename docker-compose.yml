@@ -35,6 +35,23 @@ services:
          - "11112"
       networks:
          - internal
+   api:
+      build:
+         context: ./reference-api-stu3
+         dockerfile: Dockerfile
+      image: syncforscience/reference-api-stu3
+      networks:
+         - internal
+   smart:
+      build:
+         context: ./reference-smart-stu3
+         dockerfile: Dockerfile
+      image: syncforscience/reference-smart-stu3
+      environment:
+         - API_SERVER=http://api:8080/baseDstu3
+      expose: ["5000"]
+      networks:
+         - internal
    introspection-service:
       image: syncforscience/token-introspector
       expose:

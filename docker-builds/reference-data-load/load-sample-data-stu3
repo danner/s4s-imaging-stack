@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd patients-stu3
+
+curl -H "Content-type: application/json+fhir" -X POST -d @patient-1288992.fhir-bundle.json http://api:8080/baseDstu3/
+
+for x in `ls *.json | head -n 10`; do
+  curl -H "Content-type: application/json+fhir" -X POST -d @$x http://api:8080/baseDstu3/
+done
+
+echo "Created data!"

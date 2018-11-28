@@ -43,11 +43,16 @@ services:
       ports:
          - "4567:4567"
          - "11122:11112"
+   smart:
+      environment:
+         - BASE_URL=http://localhost:9006
+      ports:
+         - "9006:5000"
    introspection-service:
       ports:
          - "9004:5000"
       environment:
-         - API_SERVER=https://portal-stu3.demo.syncfor.science/api/fhir
+         - API_SERVER=http://smart:5000/api/fhir
          - API_SERVER_NAME='SMART STU-3 PORTAL'
    s4s-fhir-broker:
       environment:

@@ -11,3 +11,9 @@
 	path = docker-builds/token-introspector
 	url = https://github.com/sync-for-science/token-introspector
 	branch = master
+[submodule "docker-builds/reference-smart-stu3"]
+	path = docker-builds/reference-smart-stu3
+	url = https://github.com/sync-for-science/auth-proxy
+[submodule "docker-builds/reference-data-load/sample-patients-stu3"]
+	path = docker-builds/reference-data-load/sample-patients-stu3
+	url = http://github.com/sync-for-science/sample-patients-stu3
