@@ -1,9 +1,3 @@
-[submodule "dcmrs-broker"]
-	path = docker-builds/dcmrs-broker
-	url = https://github.com/RSNA/dcmrs-broker.git
-[submodule "s4s-fhir-broker"]
-	path = docker-builds/s4s-fhir-broker
-	url = https://github.com/RSNA/s4s-fhir-broker.git
 [submodule "s4s-edgeserverdb"]
 	path = docker-builds/s4s-edgeserverdb
 	url = https://github.com/RSNA/s4s-edgeserverdb.git
@@ -17,3 +11,9 @@
 [submodule "docker-builds/reference-data-load/sample-patients-stu3"]
 	path = docker-builds/reference-data-load/sample-patients-stu3
 	url = http://github.com/sync-for-science/sample-patients-stu3
+[submodule "docker-builds/dcmrs-broker"]
+	path = docker-builds/dcmrs-broker
+	url = https://github.com/sync-for-science/dcmrs-broker
+[submodule "docker-builds/s4s-fhir-broker"]
+	path = docker-builds/s4s-fhir-broker
+	url = https://github.com/sync-for-science/s4s-fhir-broker
