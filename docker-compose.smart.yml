@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+   api:
+      build:
+         context: ./docker-builds/reference-api-stu3
+         dockerfile: Dockerfile
+      image: syncforscience/reference-api-stu3
+      networks:
+         - internal
+   smart:
+      build:
+         context: ./docker-builds/reference-smart-stu3
+         dockerfile: Dockerfile
+      image: syncforscience/reference-smart-stu3
+      environment:
+         - BASE_URL=http://localhost:9006
+         - API_SERVER=http://api:8080/baseDstu3
+      expose: ["5000"]
+      ports:
+         - "9006:5000"
+      networks:
+         - internal
+   introspection-service:
+      environment:
+         - API_SERVER=http://smart:5000/api/fhir
+
+networks:
+   internal:
+      driver: bridge

@@ -3,15 +3,17 @@ version: '3.3'
 services:
    load-images:
       build:
-         context: ./s4s-fhir-broker/dockerLoadImages
+         context: ./docker-builds/s4s-fhir-broker/dockerLoadImages
          dockerfile: Dockerfile
       image: rsna/load-images
       environment:
          - DEST_PACS=DCM4CHEE@dcm4chee-arc:11112
          - IMAGE_SET=smart-1288992
+      networks:
+         - internal
    load-ldap:
       build:
-         context: ./s4s-fhir-broker/dockerLoadLdap
+         context: ./docker-builds/s4s-fhir-broker/dockerLoadLdap
          dockerfile: Dockerfile
       image: rsna/load-ldap
       environment:
@@ -21,12 +23,15 @@ services:
          - DEVICE_PORT=11122  
          - LDAP_HOST=slapd
          - LDAP_PORT=389
+      networks:
+         - internal
    load-reference-data:
       build:
-         context: ./reference-data-load
+         context: ./docker-builds/reference-data-load
          dockerfile: Dockerfile
+      networks:
+         - internal
 
 networks:
-   default:
-     external:
-       name: s4sstack_internal
+   internal:
+      driver: bridge
