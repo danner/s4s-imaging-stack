@@ -15,14 +15,6 @@ services:
    dcmrs-broker:
       volumes:
          - dcmrs-broker-vol:/dcmrs-broker/cache
-      environment:
-         - VIRTUAL_HOST=dicom-broker.demo.syncfor.science
-         - VIRTUAL_PORT=4567
-         - VIRTUAL_NETWORK=nginx-proxy
-         - LETSENCRYPT_HOST=dicom-broker.demo.syncfor.science
-         - LETSENCRYPT_EMAIL=letsencrypt@mg.syncfor.science
-      networks:
-         - proxy-tier
    s4s-fhir-broker:
       environment:
          - VIRTUAL_HOST=imaging-broker.demo.syncfor.science
@@ -30,7 +22,7 @@ services:
          - VIRTUAL_NETWORK=nginx-proxy
          - LETSENCRYPT_HOST=imaging-broker.demo.syncfor.science
          - LETSENCRYPT_EMAIL=letsencrypt@mg.syncfor.science
-         - IMAGE_ARCHIVE_WADO_RS_URL="https://dicom-broker.demo.syncfor.science/wado-rs"
+         - IMAGE_ARCHIVE_WADO_RS_URL="https://imaging-broker.demo.syncfor.science/baseDstu3"
       networks:
          - proxy-tier
 

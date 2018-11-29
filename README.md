@@ -77,4 +77,3 @@ docker-compose -f docker-compose.yml -f deploys/demo.syncfor.science/docker-comp
 
 The following services will be made publicly available:
  * `imaging-broker.demo.syncfor.science`: the FHIR broker
- * `dicom-broker.demo.syncfor.science`: the DICOM broker
