@@ -89,6 +89,15 @@ services:
          - "5432"
       networks:
          - internal
+   imaging-demo:
+      build:
+         context: ./docker-builds/imaging-demo
+         dockerfile: Dockerfile
+      image: syncforscience/imaging-demo
+      expose:
+         - "80"
+      networks:
+         - internal
 
 networks:
    internal:

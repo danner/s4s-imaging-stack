@@ -28,3 +28,6 @@ services:
    rsnadb:
       ports:
          - "5433:5432"
+   imaging-demo:
+      ports:
+         - "8081:80"

@@ -17,3 +17,6 @@
 [submodule "docker-builds/s4s-fhir-broker"]
 	path = docker-builds/s4s-fhir-broker
 	url = https://github.com/sync-for-science/s4s-fhir-broker
+[submodule "docker-builds/imaging-demo"]
+	path = docker-builds/imaging-demo
+	url = https://github.com/sync-for-science/imaging-demo
