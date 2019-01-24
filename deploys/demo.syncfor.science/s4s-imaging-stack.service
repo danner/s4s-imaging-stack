@@ -1,0 +1,19 @@
+[Unit]
+Description=S4S Reference Imaging Stack
+Requires=s4s-stack.service
+After=s4s-stack.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/home/ubuntu/s4s-imaging-stack
+
+ExecStart=/usr/local/bin/docker-compose -f docker-compose.yml -f deploys/demo.syncfor.science/docker-compose.yml up -d
+ExecStart=/usr/local/bin/docker-compose -f docker-compose.loaddata.yml up -d --force-recreate
+# sometimes the loaddata needs to run twice
+ExecStart=/usr/local/bin/docker-compose -f docker-compose.loaddata.yml up -d --force-recreate
+
+ExecStop=/usr/local/bin/docker-compose down
+
+[Install]
+WantedBy=multi-user.target
